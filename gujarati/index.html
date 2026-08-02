@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="gu">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="format-detection" content="telephone=no">
+  <title>બાયો-ડેટા – સુનિલ રમેશભાઈ મોરી</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    :root {
+      --gold: #c8a96e;
+      --gold-light: #e8cfa0;
+      --gold-dark: #9a7a42;
+      --navy: #0d1b2a;
+      --navy-mid: #162035;
+      --navy-light: #1e2f4d;
+      --cream: #fdf8f0;
+      --text-dark: #1a1a2e;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0d1b2a 0%, #162035 40%, #1e2f4d 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    .btn-pdf {
+      margin-bottom: 24px;
+      padding: 14px 40px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold), var(--gold-light));
+      color: var(--navy);
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      box-shadow: 0 8px 30px rgba(200, 169, 110, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-pdf:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(200, 169, 110, 0.6);
+    }
+
+    #biodata {
+      width: 794px;
+      background: var(--cream);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #253d60 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 40px solid rgba(200, 169, 110, 0.12);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-bar {
+      width: 8px;
+      background: linear-gradient(180deg, var(--gold-light), var(--gold-dark));
+      align-self: stretch;
+      min-height: 220px;
+      flex-shrink: 0;
+    }
+
+    .header-text {
+      flex: 1;
+      padding: 40px 32px;
+    }
+
+    .bio-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .header-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .header-name span {
+      color: var(--gold);
+    }
+
+    .header-tagline {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: rgba(200, 169, 110, 0.15);
+      border: 1px solid rgba(200, 169, 110, 0.3);
+      color: var(--gold-light);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 30px;
+    }
+
+    .header-photo {
+      width: 220px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 36px 30px 0;
+    }
+
+    .photo-frame {
+      width: 166px;
+      height: 166px;
+      border-radius: 50%;
+      border: 4px solid var(--gold);
+      box-shadow: 0 0 0 8px rgba(200, 169, 110, 0.15), 0 16px 40px rgba(0, 0, 0, 0.4);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .photo-frame img {
+      width: 150px;
+      height: 150px;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      border-radius: 50%;
+    }
+
+    .photo-frame img:hover {
+      opacity: 0.88;
+      transform: scale(1.04);
+    }
+
+    /* ── Photo Thumbnails ── */
+    .photo-thumbnails {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 0 10px 10px;
+    }
+
+    .thumb-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      border: 2px solid rgba(200, 169, 110, 0.45);
+      object-fit: cover;
+      object-position: center top;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .thumb-img:hover {
+      border-color: var(--gold);
+      transform: scale(1.12);
+      box-shadow: 0 6px 18px rgba(200, 169, 110, 0.45);
+    }
+
+    .thumb-img.active {
+      border-color: var(--gold-light);
+      box-shadow: 0 0 0 3px rgba(200, 169, 110, 0.3);
+    }
+
+    /* ── Lightbox ── */
+    #photo-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.88);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(6px);
+    }
+
+    #photo-lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: 92vw;
+      max-height: 92vh;
+      animation: lbFadeIn 0.25s ease;
+    }
+
+    @keyframes lbFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.88);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .lightbox-inner img {
+      max-width: 92vw;
+      max-height: 82vh;
+      border-radius: 18px;
+      border: 3px solid var(--gold);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      display: block;
+      object-fit: contain;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: -18px;
+      right: -18px;
+      width: 38px;
+      height: 38px;
+      background: var(--gold);
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--navy);
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      transition: background 0.2s, transform 0.2s;
+      line-height: 1;
+    }
+
+    .lb-close:hover {
+      background: var(--gold-light);
+      transform: scale(1.1);
+    }
+
+    .lb-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .lb-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(200, 169, 110, 0.4);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      border: none;
+    }
+
+    .lb-dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
+    }
+
+    .lb-caption {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      margin-top: 10px;
+      letter-spacing: 1px;
+    }
+
+    .gold-divider {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    }
+
+    .body-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .section-card {
+      padding: 28px 30px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    .section-card:nth-child(odd) {
+      border-right: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 13px;
+    }
+
+    .info-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--gold);
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .info-content {
+      flex: 1;
+    }
+
+    .info-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-bottom: 1px;
+    }
+
+    .info-value {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-dark);
+      line-height: 1.4;
+    }
+
+    .tag {
+      color: var(--gold-dark);
+      font-size: 11px;
+    }
+
+    .hobbies-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hobby-chip {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold-light);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      padding: 28px 36px;
+    }
+
+    .footer-title {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(200, 169, 110, 0.2);
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .contact-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--navy);
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .contact-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 3px;
+    }
+
+    .contact-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.25);
+      letter-spacing: 1px;
+    }
+
+    @page {
+      margin: 0;
+      size: 794px auto;
+    }
+
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .btn-pdf {
+        display: none;
+      }
+
+      #biodata {
+        box-shadow: none;
+        border-radius: 0;
+        width: 100%;
+        page-break-inside: avoid;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    /* ── Tablet (max 860px) ── */
+    @media (max-width: 860px) {
+      #biodata {
+        width: 100%;
+        border-radius: 16px;
+      }
+
+      .header-name {
+        font-size: 30px;
+      }
+
+      .header-photo {
+        width: 180px;
+      }
+
+      .photo-frame {
+        width: 140px;
+        height: 140px;
+      }
+
+      .photo-frame img {
+        width: 124px;
+        height: 124px;
+      }
+
+      .thumb-img {
+        width: 42px;
+        height: 42px;
+        object-position: center top;
+      }
+    }
+
+    /* ── Mobile (max 600px) ── */
+    @media (max-width: 600px) {
+      body {
+        padding: 16px 10px;
+      }
+
+      .btn-pdf {
+        padding: 12px 28px;
+        font-size: 13px;
+        letter-spacing: 1px;
+      }
+
+      #biodata {
+        width: 100%;
+        border-radius: 14px;
+      }
+
+      .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-bar {
+        width: 100%;
+        height: 6px;
+        min-height: unset;
+        background: linear-gradient(90deg, var(--gold-light), var(--gold-dark));
+      }
+
+      .header-text {
+        padding: 24px 20px 16px;
+        order: 2;
+      }
+
+      .header-photo {
+        width: 100%;
+        order: 1;
+        padding: 28px 20px 12px;
+        justify-content: center;
+      }
+
+      .photo-frame {
+        width: 130px;
+        height: 130px;
+      }
+
+      .photo-frame img {
+        width: 114px;
+        height: 114px;
+      }
+
+      .thumb-img {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        object-position: center top;
+      }
+
+      .photo-thumbnails {
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .header-name {
+        font-size: 26px;
+      }
+
+      .bio-label {
+        font-size: 10px;
+        letter-spacing: 3px;
+      }
+
+      .header-tagline {
+        font-size: 12px;
+      }
+
+      .header-badges {
+        gap: 8px;
+      }
+
+      .badge {
+        font-size: 10px;
+        padding: 4px 11px;
+      }
+
+      .body-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-card:nth-child(odd) {
+        border-right: none;
+      }
+
+      .section-card {
+        padding: 22px 18px;
+      }
+
+      .section-heading {
+        font-size: 14px;
+      }
+
+      .info-value {
+        font-size: 13px;
+      }
+
+      .hobby-chip {
+        font-size: 11px;
+        padding: 7px 14px;
+      }
+
+      .footer {
+        padding: 22px 18px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .contact-card {
+        padding: 14px 16px;
+        gap: 12px;
+      }
+
+      .contact-icon {
+        width: 38px;
+        height: 38px;
+      }
+
+      .contact-value {
+        font-size: 13px;
+      }
+
+      .footer-title {
+        font-size: 11px;
+        letter-spacing: 3px;
+      }
+    }
+
+    /* ── Very small screens (max 360px) ── */
+    @media (max-width: 360px) {
+      .header-name {
+        font-size: 22px;
+      }
+
+      .photo-frame {
+        width: 110px;
+        height: 110px;
+      }
+
+      .photo-frame img {
+        width: 96px;
+        height: 96px;
+      }
+
+      .section-card {
+        padding: 18px 14px;
+      }
+
+      .footer {
+        padding: 18px 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- <button class="btn-pdf" onclick="downloadPDF()" id="pdf-btn">
+    ⬇ PDF ડાઉનલોડ કરો
+  </button> -->
+
+  <div id="biodata">
+
+    <div class="header">
+      <div class="header-inner">
+        <div class="header-bar"></div>
+        <div class="header-text">
+          <p class="bio-label">✦ બાયો ડેટા ✦</p>
+          <h1 class="header-name">સુનિલ<br><span>રમેશભાઈ મોરી</span></h1>
+          <p class="header-tagline">સૉફ્ટવેર એન્જિનિયર · અમદાવાદ, ગુજરાત</p>
+          <div class="header-badges">
+            <span class="badge">🎓 બી.સી.એ સ્નાતક</span>
+            <span class="badge">💻 ટેક્નોલૉજી પ્રોફેશ્નલ</span>
+            <span class="badge">📍 બોટાદ</span>
+          </div>
+        </div>
+        <div class="header-photo" style="flex-direction:column;">
+          <div class="photo-frame">
+            <!-- <img src="sunilmori1.jpeg" alt="સુનીલ રમેશભાઈ મોરી" id="main-photo" title="મોટું કરવા ક્લિક કરો" /> -->
+            <img src="../sunil.jpg" alt="સુનિલ રમેશભાઈ મોરી" id="main-photo" title="મોટું કરવા ક્લિક કરો" />
+          </div>
+          <div class="photo-thumbnails" id="photo-thumbs">
+            <img class="thumb-img active" src="../11.jpeg" alt="ફોટો ૧" title="ફોટો ૧" onclick="openLightbox(0)" />
+            <img class="thumb-img" src="../22.jpeg" alt="ફોટો ૨" title="ફોટો ૨" onclick="openLightbox(1)" />
+            <img class="thumb-img" src="../33.jpeg" alt="ફોટો ૩" title="ફોટો ૩" onclick="openLightbox(2)" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-divider"></div>
+
+    <div class="body-grid">
+
+      <!-- વ્યક્તિગત વિગત -->
+      <div class="section-card">
+        <div class="section-title">
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <span class="section-heading">વ્યક્તિગત વિગત</span>
+          <div class="section-line"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">પૂરું નામ</div>
+            <div class="info-value">સુનીલ રમેશભાઈ મોરી</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">જન્મ તારીખ</div>
+            <div class="info-value">૦૩ ડિસેમ્બર ૨૦૦૦</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">ઉંમર</div>
+            <div class="info-value">૨૫ વર્ષ</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">ઊંચાઈ</div>
+            <div class="info-value">૫ ફૂટ ૮ ઇંચ</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">વતન</div>
+            <div class="info-value">શંકર પારા, ખાસ રોડ, બોટાદ</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- કૌટુંબિક વિગત -->
+      <div class="section-card">
+        <div class="section-title">
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+            </svg>
+          </div>
+          <span class="section-heading">કૌટુંબિક વિગત</span>
+          <div class="section-line"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">પિતાનું નામ</div>
+            <div class="info-value">રમેશભાઈ ભીખુભાઈ મોરી</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">માતાનું નામ</div>
+            <div class="info-value">રંજનબેન રમેશભાઈ મોરી</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">મોટા ભાઈ</div>
+            <div class="info-value">હિતેનભાઈ મોરી <span class="tag">(પરિણીત)</span></div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">નાના ભાઈ</div>
+            <div class="info-value">અમિતભાઈ મોરી <span class="tag">(અપરિણીત)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- શિક્ષણ અને કારકિર્દી -->
+      <div class="section-card">
+        <div class="section-title">
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c3 3 9 3 12 0v-5" />
+            </svg>
+          </div>
+          <span class="section-heading">શિક્ષણ અને કારકિર્દી</span>
+          <div class="section-line"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">શૈક્ષણિક લાયકાત</div>
+            <div class="info-value">બી.સી.એ (બેચલર ઑફ કૉમ્પ્યૂટર એપ્લિકેશન્સ)</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">વ્યવસાય</div>
+            <div class="info-value">સૉફ્ટવેર એન્જિનિયર</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">કામ કરવાની જગ્યા</div>
+            <div class="info-value">અમદાવાદ, ગુજરાત</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-dot"></div>
+          <div class="info-content">
+            <div class="info-label">માસિક આવક</div>
+            <div class="info-value">&#8377; ૬૨,૦૦૦ / મહિને</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- શોખ અને રુચિ -->
+      <div class="section-card">
+        <div class="section-title">
+          <div class="section-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+          </div>
+          <span class="section-heading">શોખ અને રુચિ</span>
+          <div class="section-line"></div>
+        </div>
+        <div class="hobbies-grid">
+          <div class="hobby-chip">&#9992; પ્રવાસ</div>
+          <div class="hobby-chip">&#128187; ટેક્નોલૉજી</div>
+          <div class="hobby-chip">&#127968; કૌટુંબિક સમય</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer: Contact Details -->
+    <div class="footer">
+      <p class="footer-title">&#10022; સંપર્ક વિગત &#10022;</p>
+      <div class="footer-grid">
+        <div class="contact-card">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">સંપર્ક વ્યક્તિ</div>
+            <div class="contact-value">રમેશભાઈ મોરી</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.08A16 16 0 0015.92 17.1l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">ફોન નંબર</div>
+            <div class="contact-value">+91 76982 84283</div>
+          </div>
+        </div>
+      </div>
+      <p class="footer-bottom">&#10022; &nbsp; પ્રેમ સાથે તૈયાર કરવામાં આવ્યો &nbsp; &#10022;</p>
+    </div>
+
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="photo-lightbox" onclick="closeLightboxOnBg(event)">
+    <div class="lightbox-inner" id="lb-inner">
+      <button class="lb-close" onclick="closeLightbox()" title="બંધ કરો">&#x2715;</button>
+      <img id="lb-img" src="" alt="ફોટો" />
+      <div class="lb-caption" id="lb-caption"></div>
+      <div class="lb-nav" id="lb-nav"></div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Photo Gallery & Lightbox ── */
+    var photos = [
+      { src: '../photo1.JPG', caption: '૧' },
+      { src: '../photo2.jpeg', caption: '૨' },
+      { src: '../photo3.jpeg', caption: '૩' }
+    ];
+    var currentPhoto = 0;
+
+    function openLightbox(index) {
+      currentPhoto = index;
+      var lb = document.getElementById('photo-lightbox');
+      lb.classList.add('open');
+      updateLightbox();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('photo-lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeLightboxOnBg(e) {
+      if (e.target === document.getElementById('photo-lightbox')) closeLightbox();
+    }
+
+    function updateLightbox() {
+      var p = photos[currentPhoto];
+      document.getElementById('lb-img').src = p.src;
+      document.getElementById('lb-caption').textContent = p.caption;
+
+      /* dots */
+      var nav = document.getElementById('lb-nav');
+      nav.innerHTML = '';
+      photos.forEach(function (_, i) {
+        var dot = document.createElement('button');
+        dot.className = 'lb-dot' + (i === currentPhoto ? ' active' : '');
+        dot.onclick = function () { currentPhoto = i; updateLightbox(); };
+        nav.appendChild(dot);
+      });
+
+      /* highlight active thumb */
+      var thumbs = document.querySelectorAll('.thumb-img');
+      thumbs.forEach(function (t, i) { t.classList.toggle('active', i === currentPhoto); });
+    }
+
+    /* keyboard navigation */
+    document.addEventListener('keydown', function (e) {
+      var lb = document.getElementById('photo-lightbox');
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') { currentPhoto = (currentPhoto + 1) % photos.length; updateLightbox(); }
+      if (e.key === 'ArrowLeft') { currentPhoto = (currentPhoto - 1 + photos.length) % photos.length; updateLightbox(); }
+    });
+
+    function downloadPDF() {
+      var btn = document.getElementById('pdf-btn');
+      btn.textContent = 'PDF બનાવાઈ રહ્યો છે...';
+      btn.disabled = true;
+      var element = document.getElementById('biodata');
+      var opt = {
+        margin: 0,
+        filename: 'Sunil_Mori_BioData.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'px', format: [794, element.offsetHeight + 10], orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save().then(function () {
+        btn.textContent = 'PDF ડાઉનલોડ કરો';
+        btn.disabled = false;
+      });
+    }
+  </script>
+
+</body>
+
+</html>
